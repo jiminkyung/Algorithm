@@ -1,0 +1,6 @@
+def solution(s):
+    return "".join(sorted(s, reverse=True))
+
+# 알고리즘적으로 풀어보자...
+# => 어지러워서 클로드에게 물어보고 수정...
+# 더러워져서 폐기.
