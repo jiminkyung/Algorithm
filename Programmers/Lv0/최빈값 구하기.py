@@ -24,3 +24,5 @@ def solution(array):
             print(array)
         if i == 0: return a
     return -1
+
+# 나는 더욱 더 간지나게 풀것이다...
