@@ -7,3 +7,11 @@ def solution(n):
         return 1
     else:
         return n // 7 + 1
+
+# 젠장ㅜㅜ 수학공부 열심히할걸
+def solution(n):
+    return (n - 1) // 7 + 1
+
+# 수학문제집을 살까?
+def solution(n):
+    return -(-n//7)
