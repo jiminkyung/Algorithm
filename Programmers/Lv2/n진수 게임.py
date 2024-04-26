@@ -12,7 +12,7 @@ def solution(n, t, m, p):
     ret = nums[p-1::m].upper()
     return ret[:t]
 
-# 2~16까지 모든 진법. (다른분 코드 참고)
+# 정답. 2~16까지 모든 진법. (다른분 코드 참고 - 문자열 뒤집는 타이밍)
 def solution(n, t, m, p):
     alp = "0123456789ABCDEF"
     nums = "0"
