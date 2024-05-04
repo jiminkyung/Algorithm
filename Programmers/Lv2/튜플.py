@@ -12,3 +12,12 @@ def solution(s: str) -> list:
     counts = [(n, nums.count(n)) for n in nums_set]
     counts.sort(key=lambda x: x[1], reverse=True)
     return [int(n[0]) for n in counts]
+
+# 모듈을 이용한 풀이 발견. Counter와 re 사용.
+def solution(s):
+
+    s = Counter(re.findall('\d+', s))
+    return list(map(int, [k for k, v in sorted(s.items(), key=lambda x: x[1], reverse=True)]))
+
+import re
+from collections import Counter
