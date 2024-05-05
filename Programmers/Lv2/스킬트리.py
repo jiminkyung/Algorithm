@@ -11,7 +11,7 @@ tmp: skill을 인덱싱할때 사용할 변수
 4. 스킬 요소 순회 후 is_True가 True라면 ret에 1 추가
 """
 
-def solution(skill, skill_trees):
+def solution(skill: str, skill_trees: list) -> int:
     ret = 0
 
     for skills in skill_trees:
