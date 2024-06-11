@@ -16,7 +16,7 @@ print(ret)
 
 
 # 투 포인터 알고리즘 사용
-# 시간: 104ms. 시간이 훨씬 줄어들었다.
+# 시간: 36ms. 시간이 훨씬 줄어들었다.
 N, M = map(int, input().split())
 cards = list(map(int, input().split()))
 
