@@ -1,5 +1,5 @@
 # 스택, 큐, 덱
-# 메모리: 54872KB / 시간: 184ms
+# 메모리: 53788KB / 시간: 160ms
 
 from collections import deque
 from sys import stdin
@@ -17,13 +17,11 @@ ret = []
 
 new_elements = list(map(int, input().split()))
 
-if sum(new_elements) == N:
-    print(*new_elements)
-else:
-    for n in new_elements:
-        dq.appendleft(n)
-        ret.append(dq.pop())
-    print(*ret)
+for n in new_elements:
+    dq.appendleft(n)
+    ret.append(dq.pop())
+
+print(*ret)
 
 
 # 좀 더 빠르게 구현해보기 1 - 동작까지는 구현해놓은 버전
