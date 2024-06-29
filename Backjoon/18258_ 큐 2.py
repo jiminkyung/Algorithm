@@ -42,6 +42,7 @@ dq = deque()
 
 for _ in range(N):
     command, *num = input().rstrip().split()
+    # rstrip() 삭제 가능. 삭제 후 메모리: 110548KB / 시간: 1884ms
 
     if command == "push":
         dq.append(int(num[0]))
