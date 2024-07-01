@@ -6,12 +6,11 @@ from sys import stdin
 
 logs = iter(stdin.read().split())
 next(logs)
-enter = ret = 0
+ret = 0
 curr = set()
 
 for log in logs:
     if log == "ENTER":
-        enter += 1
         curr = set()
         continue
 
