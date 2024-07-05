@@ -22,6 +22,8 @@ import sys
 
 def backtrack(n, m, ret):
     if len(ret) == m:
+        # 언패킹(*list)보다 .join()함수를 사용하는게 더 효율적이다.
+        # 1) .join()은 C로 구현되어있음.  2) 언패킹은 각 요소마다 print() 호출.
         sys.stdout.buffer.write(b" ".join(ret) + b"\n")
         return
     
