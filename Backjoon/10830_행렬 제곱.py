@@ -20,6 +20,7 @@ N, B = map(int, input().split())
 A = [list(map(int, input().split())) for _ in range(N)]
 p = 1000
 # ❗ 주어진 A의 원소 입력값들도 1000으로 나누어줘야한다. A = [[1000, 1000], [1000, 1000]]으로 주어질수도 있음.
+# https://www.acmicpc.net/board/view/109581
 A = [[col % p for col in row] for row in A]
 
 
