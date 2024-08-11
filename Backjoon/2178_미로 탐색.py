@@ -52,7 +52,7 @@ def bfs():
 
     while queue:
         x, y, dis = queue.popleft()
-        maze[x][y] = 0
+        # maze[x][y] = 0  # 미리 0으로 변경해주기 때문에 필요없는 부분. 메모리: 34044KB / 시간: 64ms
 
         if x == N-1 and y == M-1:
             return dis
