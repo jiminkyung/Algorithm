@@ -78,6 +78,7 @@ def bfs():
 print(bfs())
 
 
+# 👑 가장 효율이 좋은 코드
 # [벽 안부숨, 벽 부숨]을 boolean값으로 설정하고, 거리를 나타낼 dis를 따로 할당해주기.
 # 메모리: 151288KB / 시간: 2660ms
 from sys import stdin
@@ -104,11 +105,11 @@ def bfs():
             nx, ny = x + dx, y + dy
 
             if 0 <= nx < N and 0 <= ny < M:
-                # 벽이 아닌 경우
+                # 벽이 아닌 경우,
                 if MAP[nx][ny] == 0 and not visited[nx][ny][broken]:
                     visited[nx][ny][broken] = True
                     queue.append((nx, ny, dis+1, broken))
-                # 벽인 경우, 아직 벽을 부수지 않았다면
+                # 벽인 경우, 아직 벽을 부수지 않았다면,
                 # 여기서 방문체크를 꼭 해주지 않아도 되지만, 효율성을 위해 적는게 좋다.
                 # '다른 경로를 통해 벽을 부순 경우'도 고려하는것. 👉 마찬가지로 위의 두 코드도 방문체크코드를 추가해주면 더 빨라진다.
                 elif MAP[nx][ny] == 1 and not broken and not visited[nx][ny][True]:
