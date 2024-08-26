@@ -25,6 +25,7 @@ def bruteforce(lst, sum_lst, idx, weight):
         return
     bruteforce(lst, sum_lst, idx + 1, weight)  # 현재 물건을 건너뛰고 다음 물건으로.
     bruteforce(lst, sum_lst, idx + 1, weight + lst[idx])  # 현재 물건을 포함하고 다음 물건으로.
+# 아무것도 선택하지 않는 경우(0) -> 초기 호출(lst, sum_lst, 0, 0)에서 현재 물건을 건너뛰는 선택을 반복할경우 반환됨.
 
 
 def binary_search(lst, target, start, end):
