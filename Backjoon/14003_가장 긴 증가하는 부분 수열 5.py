@@ -51,6 +51,7 @@ print(*ret_lst[::-1])
 
 
 # bisect 모듈을 사용한 풀이. 생각보다 많이들 쓴다.
+# 참고👉 https://velog.io/@joon6093/%EB%B0%B1%EC%A4%80-14003-%EA%B0%80%EC%9E%A5-%EA%B8%B4-%EC%A6%9D%EA%B0%80%ED%95%98%EB%8A%94-%EB%B6%80%EB%B6%84-%EC%88%98%EC%97%B4-5-python
 # -float('inf')로 초기화한 대신 LIS의 길이값을 출력할 때 -1을 해줌.
 import sys
 from bisect import bisect_left
