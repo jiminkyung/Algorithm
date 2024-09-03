@@ -70,7 +70,7 @@ from sys import stdin
 input = stdin.readline
 K = int(input())
 
-def bfs(start):
+def dfs(start):
     stack = [start]
     visited[start] = 1
 
