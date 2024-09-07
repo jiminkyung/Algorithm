@@ -1,10 +1,13 @@
 # 동적 계획법 2
 
-# 메모리: 42756KB / 시간: 136ms
-from sys import stdin
+# 메모리: 42756KB / 시간: 136ms => (재채점) 메모리: 44120KB / 시간: 108ms
+
+import sys
 
 
-input = stdin.readline
+sys.setrecursionlimit(10**9)  # 재귀 깊이를 늘려줘야 함
+input = sys.stdin.readline
+
 M, N = map(int, input().split())
 boards = [tuple(map(int, input().split())) for _ in range(M)]
 
