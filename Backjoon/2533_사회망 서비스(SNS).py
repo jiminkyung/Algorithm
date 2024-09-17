@@ -2,7 +2,7 @@
 
 
 # 문제: https://www.acmicpc.net/problem/2533
-# 메모리: 
+# 메모리: 311372KB / 시간: 5000ms
 import sys
 
 
