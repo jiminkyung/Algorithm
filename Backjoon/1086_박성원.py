@@ -51,7 +51,7 @@ K = int(input())
 # 추가하려는 숫자의 인덱스(i), 이전까지의 나머지(j)
 remain = [[(j * 10 ** len(str(S[i])) + S[i]) % K for j in range(K)] for i in range(N)]
 
-# dp[i][j] = 선택한 숫자들(i), 현재까지의 나머지(j)
+# dp[i][j] = 선택한 숫자의 조합(i), 그 조합의 나머지(j)
 dp = [[0] * K for _ in range(1 << N)]
 dp[0][0] = 1
 
