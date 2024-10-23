@@ -20,6 +20,7 @@ for i in range(2, int(m**0.5) + 1):
     s = i * i
     first = (n-1) // s + 1  # n 이상의 수 중 s로 나눠지는 가장 첫번째 수
     last = m // s  # m 이하의 수 중 s로 나눠지는 가장 마지막 수
+    # ex) n = 10, s = 4 일때 first = 3 (3 * 4 = 12)
 
     for j in range(first, last+1):
         nums[j*s - n] = 0
