@@ -1,4 +1,4 @@
-# 문제집 - 0x0B - 재귀
+# 문제집 - 0x09강 - BFS
 
 
 # 문제: https://www.acmicpc.net/problem/2146
