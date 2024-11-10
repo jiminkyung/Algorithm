@@ -6,6 +6,7 @@
 # 낮/밤을 구분해야하므로 거리(칸)를 나타내는 변수 dis를 추가해줬다.
 # (다음칸이 벽이지만 밤이라서 기다려야하는 경우) 처음에는 visited[x][y][k]에 1을 더해주는 방식을 사용했으나 틀림.
 # => 상하좌우 4칸 중 2칸이 벽이라면, 첫번째 벽칸때문에 +1, 두번째 벽칸때문에 +1, 최종적으로 +2가 된다.
+# => 쓰다보니 해결법이 생각났다. 아래에 추가 작성함.
 
 # PyPy3로 통과된 코드. Python3로 통과된 풀이는 아직까진 없다.
 # 메모리: 342312KB / 시간: 4412ms
@@ -40,6 +41,51 @@ def bfs():
                         else:  # 낮
                             visited[k-1][nx][ny] = dis + 1
                             queue.append((k-1, nx, ny, dis+1))
+
+    return -1
+
+
+N, M, K = map(int, input().split())
+graph = [list(map(int, input().rstrip())) for _ in range(N)]
+
+print(bfs())
+
+
+# dis를 사용하지 않고 visited[k][x][y]로 낮/밤을 판별하는 풀이.
+# 효율은 첫번째 풀이가 좋다.
+# 메모리: 342816KB / 시간: 4464ms
+from sys import stdin
+from collections import deque
+
+
+input = stdin.readline
+
+def bfs():
+    queue = deque([(K, 0, 0)])
+    visited = [[[-1] * M for _ in range(N)] for _ in range(K+1)]
+    visited[K][0][0] = 1
+
+    while queue:
+        k, x, y = queue.popleft()
+        curr = visited[k][x][y]
+
+        if x == N-1 and y == M-1:
+            return curr
+
+        for nx, ny in ((x-1, y), (x+1, y), (x, y-1), (x, y+1)):
+            if 0 <= nx < N and 0 <= ny < M:
+                if graph[nx][ny] == 0 and visited[k][nx][ny] == -1:
+                    visited[k][nx][ny] = curr + 1
+                    queue.append((k, nx, ny))
+                
+                if k > 0:
+                    if graph[nx][ny] == 1 and visited[k-1][nx][ny] == -1:
+                        if curr % 2 == 0:  # 밤
+                            visited[k][x][y] = curr + 1
+                            queue.append((k, x, y))
+                        else:  # 낮
+                            visited[k-1][nx][ny] = curr + 1
+                            queue.append((k-1, nx, ny))
 
     return -1
 
