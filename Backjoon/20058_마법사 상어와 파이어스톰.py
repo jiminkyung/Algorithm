@@ -16,7 +16,7 @@ L = list(map(int, input().split()))
 # 각 블록을 90º 회전시키는 함수
 def rotate(field, size: int) -> list:
     rotated = [[0] * N for _ in range(N)]
-    # 딱 두번의 for문만으로도 풀 수 있을것같다... 더 구해봐야겠음.
+    # 딱 두번의 for문만으로도 풀 수 있을것같다... 더 구해봐야겠음. => 아래에 추가
     for i in range(0, N, size):
         for j in range(0, N, size):
 
@@ -76,3 +76,34 @@ for i in range(N):
             max_chunk = max(bfs(i, j), max_chunk)
 
 print(total_ice, max_chunk, sep="\n")
+
+
+# 90º 회전시키는 부분 바리에이션.
+# 처음 버전과 메모리사용량은 똑같고 시간은 더 느림. 
+
+# 1. 시간: 2960ms
+def rotate(field, size: int) -> list:
+    rotated = [[0] * N for _ in range(N)]
+    for i in range(N):
+        for j in range(N):
+            # 시작점
+            box_row = (i // size) * size
+            box_col = (j // size) * size
+            # 상대적 위치
+            local_row = i % size
+            local_col = j % size
+
+            rotated[box_row+local_col][box_col+(size-local_row-1)] = field[i][j]
+    return rotated
+
+# 2. 위 버전을 좀 더 간결하게. 시간: 2920ms
+def rotate(field, size: int) -> list:
+    rotated = [[0] * N for _ in range(N)]
+    for i in range(N):
+        for j in range(N):
+            # 시작점
+            sr = i - (i % size)
+            sc = j - (j % size)
+
+            rotated[sr + (j % size)][sc + size-1 - (i % size)] = field[i][j]
+    return rotated
