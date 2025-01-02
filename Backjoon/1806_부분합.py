@@ -1,6 +1,6 @@
 # 투 포인터
 
-# 투 포인터로 LIS를 어떻게 구하느냐...
+# 투 포인터로 LIS를 어떻게 구하느냐... => LIS 문제 아님
 # 71%에서 실패.
 from sys import stdin
 
@@ -56,3 +56,28 @@ while True:
         right += 1
 
 print(ret if ret != N + 1 else 0)
+
+
+# ⭐0x14강 투 포인터 풀면서 다시 풀어봄.
+# 메모리: 42168KB / 시간: 100ms
+from sys import stdin
+
+
+input = stdin.readline
+
+N, S = map(int, input().split())
+arr = list(map(int, input().split()))
+
+min_length = N+1
+left = 0
+curr_sum = 0
+
+for right in range(N):
+    curr_sum += arr[right]
+
+    while curr_sum >= S and left <= right:
+        min_length = min(right-left+1, min_length)
+        curr_sum -= arr[left]
+        left += 1
+
+print(min_length if min_length <= N else 0)
