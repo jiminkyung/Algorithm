@@ -69,3 +69,47 @@ def solution():
 
 
 solution()
+
+
+# 250105 풀이
+# 메모리: 75136KB / 시간: 576ms
+from sys import stdin
+
+
+input = stdin.readline
+
+N = int(input())
+
+def solution(N):
+    if N == 1:
+        return 0
+    elif N in (2, 3, 7):
+        return 1
+    
+    # 소수 판정
+    primes = [True] * (N+1)
+    primes[0] = primes[1] = False
+
+    for i in range(2, int(N ** 0.5)+1):
+        if primes[i]:
+            for j in range(i*i, N+1, i):
+                primes[j] = False
+
+    primes = [i for i in range(N+1) if primes[i]]
+
+    # 소수의 연속합 계산
+    left = ret = 0
+    S = 0
+
+    for right in range(len(primes)):
+        S += primes[right]
+
+        while S >= N:
+            if S == N:
+                ret += 1
+            S -= primes[left]
+            left += 1
+    
+    return ret
+
+print(solution(N))
