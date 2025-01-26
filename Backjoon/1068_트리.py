@@ -2,6 +2,8 @@
 
 
 # 문제: https://www.acmicpc.net/problem/1068
+
+# 반례👉 https://www.acmicpc.net/board/view/148605
 # 메모리: 32412KB / 시간: 40ms
 from sys import stdin
 
