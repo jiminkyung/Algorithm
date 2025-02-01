@@ -4,6 +4,24 @@
 # 문제: https://www.acmicpc.net/problem/2623
 
 # 싸이클을 탐지해야함.
+# curr을 기준으로 싸이클을 탐지하면 X
+"""
+            if visited[curr]:
+                if not finished[curr]:
+                    return [0]
+                continue
+
+graph = {
+    1: [2],
+    2: [3],
+    3: [4, 5],
+    4: [3],  # 4 → 3 (사이클 경로)
+    5: [6],
+    6: [2]   # 6 → 2 (사이클 경로)
+}
+
+위와 같이 구성되어있을때, visited[curr]을 체크하면서 finished를 체크하는 방식을 사용하면 싸이클을 탐지할 수 없다.
+"""
 # 메모리: 32412KB / 시간: 36ms
 from sys import stdin
 
