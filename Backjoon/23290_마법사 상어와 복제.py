@@ -261,3 +261,137 @@ print(ret)
 
 # 실행시간 1위인 코드. 3차원 리스트로 관리함! 머리를 쓰자...
 # 👉 https://www.acmicpc.net/source/84850990
+# 3) 1위 코드를 참고한 풀이.
+# 메모리와 실행시간 관련해서 공부 좀 해야할듯... 어떤게 더 효율적인지...🥲
+
+# 메모리: 32412KB / 시간: 44ms
+from sys import stdin
+
+
+input = stdin.readline
+
+fish_dx = [0, -1, -1, -1, 0, 1, 1, 1]
+fish_dy = [-1, -1, 0, 1, 1, 1, 0, -1]
+
+shark_dx = [-1, 0, 1, 0]
+shark_dy = [0, -1, 0, 1]
+
+M, S = map(int, input().split())
+field = [[[0] * 8 for _ in range(4)] for _ in range(4)]
+smell = [[0] * 4 for _ in range(4)]
+
+for _ in range(M):
+    x, y, d = map(int, input().split())
+    field[x-1][y-1][d-1] += 1
+
+shark_x, shark_y = map(lambda x: int(x)-1, input().split())
+
+def fish_moving(field):
+    new_field = [[[0] * 8 for _ in range(4)] for _ in range(4)]
+
+    for x in range(4):
+        for y in range(4):
+            if sum(field[x][y]) > 0:
+                for d in range(8):
+                    if field[x][y][d] > 0:
+                        moved = False
+                        for k in range(8):
+                            nd = (d - k) % 8
+                            nx, ny = x + fish_dx[nd], y + fish_dy[nd]
+                            if not (0 <= nx < 4 and 0 <= ny < 4):
+                                continue
+                            if (nx, ny) == (shark_x, shark_y):
+                                continue
+                            if smell[nx][ny] > 0:
+                                continue
+                            new_field[nx][ny][nd] += field[x][y][d]
+                            moved = True
+                            break
+                        if not moved:
+                            new_field[x][y][d] += field[x][y][d]
+    return new_field
+
+
+def shark_moving(field, turn):
+    global shark_x, shark_y
+    
+    max_fish = -1
+    new_x = new_y = -1
+
+    fish_map = [[sum(field[i][j]) for j in range(4)] for i in range(4)]
+
+    for first in range(4):
+        first_x = shark_x + shark_dx[first]
+        first_y = shark_y + shark_dy[first]
+
+        if not (0 <= first_x < 4 and 0 <= first_y < 4):
+            continue
+
+        fish_1 = fish_map[first_x][first_y]
+        fish_map[first_x][first_y] = 0
+
+        for second in range(4):
+            second_x = first_x + shark_dx[second]
+            second_y = first_y + shark_dy[second]
+
+            if not (0 <= second_x < 4 and 0 <= second_y < 4):
+                continue
+
+            fish_2 = fish_map[second_x][second_y]
+            fish_map[second_x][second_y] = 0
+
+            for third in range(4):
+                third_x = second_x + shark_dx[third]
+                third_y = second_y + shark_dy[third]
+
+                if not (0 <= third_x < 4 and 0 <= third_y < 4):
+                    continue
+
+                fish_3 = fish_map[third_x][third_y]
+                total_fish = fish_1 + fish_2 + fish_3
+                if max_fish < total_fish:
+                    max_fish = total_fish
+                    route = []
+                    if fish_1 > 0:
+                        route.append((first_x, first_y))
+                    if fish_2 > 0:
+                        route.append((second_x, second_y))
+                    if fish_3 > 0:
+                        route.append((third_x, third_y))
+                    new_x, new_y = third_x, third_y
+            
+            fish_map[second_x][second_y] = fish_2
+        fish_map[first_x][first_y] = fish_1
+    
+    for x, y in route:
+        field[x][y] = [0] * 8
+        smell[x][y] = turn+2  # 2턴 뒤에 없애기
+    
+    shark_x, shark_y = new_x, new_y
+
+
+for turn in range(1, S+1):
+    # 1. 물고기 복제 마법 시전
+    fish_copy = [[row[:] for row in line] for line in field]
+
+    # 2. 물고기 이동
+    field = fish_moving(field)
+
+    # 3. 상어 이동
+    shark_moving(field, turn)
+
+    # 4. 냄새 제거
+    for i in range(4):
+        for j in range(4):
+            if smell[i][j] == turn:
+                smell[i][j] = 0
+    
+    # 5. 복제한 물고기 추가
+    for i in range(4):
+        for j in range(4):
+            for d in range(8):
+                field[i][j][d] += fish_copy[i][j][d]
+
+
+ret = sum(sum(field[i][j]) for i in range(4) for j in range(4))
+print(ret)
