@@ -1,6 +1,143 @@
-# 최소 신장 트리
+# 문제집 - 0x1B강 - 최소 신장 트리
 
 
+# 문제: https://www.acmicpc.net/problem/1774
+
+# 블로그에 업로드하기 전 다시 풀어봤다.
+# 🚨 다시 풀면서도 실수했던 부분
+    # 이미 연결된 행성들로 주어진 M개의 행성 쌍들은 "MST"라는 보장이 없음!
+    # 즉, (a, b), (c, d)로 주어졌을때, a-b / c-d 별개로 봐야함. 전체가 이어진건 아니다.
+
+# 1. 다시 풀어본 풀이 (프림)
+# 메모리: 33432KB / 시간: 276ms
+from sys import stdin
+
+
+input = stdin.readline
+INF = float("inf")
+
+def main():
+    N, M = map(int, input().split())
+
+    # 1. 행성 좌표와 이미 연결된 행성들의 정보를 저장
+    graph = [tuple(map(int, input().split())) for _ in range(N)]
+    linked = [set() for _ in range(N)]  # linked[a] = a와 연결된 행성들
+
+    for _ in range(M):
+        a, b = map(lambda x: int(x)-1, input().split())
+        linked[a].add(b)
+        linked[b].add(a)
+    
+    # 2. 프림 알고리즘 진행
+    visited = [False] * N
+    costs = [INF] * N
+    costs[0] = 0
+    ret = 0.0
+    
+    for _ in range(N):
+        min_node = -1
+        min_cost = INF
+
+        for i in range(N):
+            if not visited[i] and costs[i] < min_cost:
+                min_node = i
+                min_cost = costs[i]
+        
+        visited[min_node] = True
+        ret += min_cost ** 0.5
+
+        # 2-1. 현재 행성에서 다른 행성까지의 거리 계산
+        # 이미 방문한 행성이라면 넘어감.
+
+        # 현재 행성과 연결되어있는 행성이라면, 거리값을 0으로 업데이트함.
+        # 아니라면, 거리계산 후 기존 거리값보다 작을 경우에만 거리값 업데이트.
+        for nxt, (x, y) in enumerate(graph):
+            if visited[nxt]:
+                continue
+
+            if nxt in linked[min_node]:
+                costs[nxt] = 0
+            else:
+                cost = (graph[min_node][0] - x) ** 2 + (graph[min_node][1] - y) ** 2
+                if cost < costs[nxt]:
+                    costs[nxt] = cost
+    
+    # 3. 두번째 자리에서 반올림한 결과 출력
+    print(f"{ret:.2f}")  # f-string을 사용하면 자동으로 반올림 가능
+
+
+main()
+
+
+# 힙을 사용하면 아주 조금 더 빨라짐.
+# 메모리: 36532KB / 시간: 240ms
+from sys import stdin
+from heapq import heappush, heappop
+
+
+input = stdin.readline
+INF = float("inf")
+
+def main():
+    N, M = map(int, input().split())
+
+    # 1. 행성 좌표와 이미 연결된 행성들의 정보를 저장
+    graph = [tuple(map(int, input().split())) for _ in range(N)]
+    linked = [set() for _ in range(N)]  # linked[a] = a와 연결된 행성들
+
+    for _ in range(M):
+        a, b = map(lambda x: int(x)-1, input().split())
+        linked[a].add(b)
+        linked[b].add(a)
+    
+    # 2. 프림 알고리즘 진행
+    heap = [(0, 0)]
+    cnt = 0
+    
+    visited = [False] * N
+    costs = [INF] * N
+    costs[0] = 0
+    ret = 0.0
+    
+    while heap:
+        cost, curr = heappop(heap)
+        
+        if visited[curr]:
+            continue
+        
+        visited[curr] = True
+        ret += cost ** 0.5
+        cnt += 1
+        
+        if cnt >= N:
+            break
+        
+        # 2-1. 현재 행성에서 다른 행성까지의 거리 계산
+        # 이미 방문한 행성이라면 넘어감.
+
+        # 현재 행성과 연결되어있는 행성이라면, 거리값을 0으로 업데이트함.
+        # 아니라면, 거리계산 후 기존 거리값보다 작을 경우에만 거리값 업데이트.
+        for nxt, (x, y) in enumerate(graph):
+            if visited[nxt]:
+                continue
+            
+            if nxt in linked[curr]:
+                costs[nxt] = 0
+                heappush(heap, (0, nxt))
+            else:
+                nxt_cost = (graph[curr][0] - x) ** 2 + (graph[curr][1] - y) ** 2
+                if nxt_cost < costs[nxt]:
+                    costs[nxt] = nxt_cost
+                    heappush(heap, (nxt_cost, nxt))
+    
+    # 3. 두번째 자리에서 반올림한 결과 출력
+    print(f"{ret:.2f}")  # f-string을 사용하면 자동으로 반올림 가능
+
+
+main()
+
+
+# 2. 기존에 통과했던 풀이 (크루스칼)
 # 기존의 통로 길이값은 제외한다.
 # 메모리: 101264KB / 시간: 976ms
 from sys import stdin
@@ -58,6 +195,8 @@ for a, b, dis in edges:
 print(f"{ret:.2f}")
 
 
+# 아래는 다른분이 작성한 풀이
+# 출처👉 https://www.acmicpc.net/source/52778455
 # 실행시간 372ms, 메모리 31256KB인 코드.
 # 크루스칼 알고리즘이 아닌 프림 알고리즘을 사용했다.
 import sys
