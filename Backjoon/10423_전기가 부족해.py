@@ -79,14 +79,14 @@ visited = [False] * (N+1)
 heap = []
 ret = cnt = 0
 
-# 1. 본격적인 탐색을 시작하기 전, 발전소가 설치된 노드들을 힙에 넣어줌
+# 1. 본격적인 탐색을 시작하기 전, 발전소가 설치된 노드와 연결된 노드들을 힙에 넣어줌
 for ins in installed:
     visited[ins] = True
-    costs[ins] = 0
+    costs[ins] = 0  # 없어도 됨. 위에서 방문처리해줬으므로 알아서 넘어감.
     for node, cost in graph[ins]:
         heappush(heap, (cost, node))
 
-# 2. 힙이 존재하고 간선의 수(cnt)가 N-K개 이하일때까지만 진행
+# 2. 힙이 존재하고 노드 수(cnt)가 N-K개 이하일때까지만 진행
 while heap and cnt < N - K:
     cost, node = heappop(heap)
 
