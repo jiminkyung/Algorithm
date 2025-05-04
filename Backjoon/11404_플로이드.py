@@ -4,6 +4,7 @@
 # 한 노드에서 모든 노드까지가 아닌, 모든 노드간의 최단거리를 구할 수 있는 알고리즘이다.
 # 시작노드가 i, 도착노드가 j일때 노드 k를 거쳐가는 경우를 확인한다. dp[i][j] = min(dp[i][j], dp[i][k]+dp[k][j])
 
+# 문제: https://www.acmicpc.net/problem/11404
 
 # 메모리: 42140KB / 시간: 376ms
 from sys import stdin
