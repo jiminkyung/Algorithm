@@ -53,6 +53,7 @@ main()
 
 
 # 2) 수선의 발 사용 풀이
+# 도움이 됐던 글👉 https://www.acmicpc.net/board/view/122151
 # 메모리: 32412KB / 시간: 36ms
 from sys import stdin
 
@@ -74,6 +75,7 @@ def main():
 
     t = top / bottom
 
+    # t가 음수일경우(열차가 뒤로 움직여야 함) 초기 위치값이 정답이 되어야 함.
     if t < 0:
         x, y = ex, ey
     else:
