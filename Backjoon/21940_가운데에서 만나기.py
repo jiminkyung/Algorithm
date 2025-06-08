@@ -2,6 +2,71 @@
 
 
 # 문제: https://www.acmicpc.net/problem/21940
+
+# 1) 새롭게 작성한 풀이
+# 메모리: 33432KB / 시간: 924ms
+from sys import stdin
+
+
+input = stdin.readline
+INF = int(1e9)
+
+def main():
+    def floyd_warshall(graph: list) -> list:
+        for k in range(N):
+            for i in range(N):
+                for j in range(N):
+                    graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
+        return graph
+
+
+    def calc() -> list[int]:
+        """ X가 될 수 있는 마을 후보들 구하기 """
+        min_time = INF  # 최소 왕복시간
+        towns = []  # X가 될 수 있는 마을들
+
+        # 최대가 최소 = X까지 가는 왕복시간 중 최댓값이, 다른 마을로 가는 왕복시간들 중 최솟값인경우.
+        for X in range(N):
+            time = 0  # 현재 마을 기준 최대 왕복시간
+            for curr in C:
+                curr_time = graph[curr][X] + graph[X][curr]
+                if curr_time == INF:
+                    break
+                time = max(time, curr_time)
+            
+            # 만약 다른 마을 왕복시간보다 작다면, 최솟값과 town 리스트 갱신.
+            # 같다면 town 리스트에 현재 마을 추가
+            if time < min_time:
+                towns = [X]
+                min_time = time
+            elif time == min_time:
+                towns.append(X)
+        return towns
+    
+
+    N, M = map(int, input().split())
+    graph = [[INF] * N for _ in range(N)]
+
+    for i in range(N):
+        graph[i][i] = 0
+    
+    for _ in range(M):
+        A, B, T = map(int, input().split())
+        graph[A-1][B-1] = T
+    
+    K = int(input())
+    C = list(map(lambda x: int(x)-1, input().split()))
+    
+    graph = floyd_warshall(graph)
+    towns = calc()
+    
+    print(" ".join(map(lambda x: str(x+1), towns)))
+
+
+main()
+
+
+# 2) 기존 풀이. 딕셔너리 사용.
 # 메모리: 34456KB / 시간: 2632ms
 from sys import stdin
 
