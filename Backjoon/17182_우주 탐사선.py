@@ -27,6 +27,7 @@ for k in range(N):
             graph[i][j] = min(graph[i][k] + graph[k][j], graph[i][j])
 
 # 2. DP로 최적의 경로를 구함
+# dp[curr][visited] = 현재 행성 curr에서 시작해서, 아직 방문하지 않은 모든 행성을 탐사하는데 필요한 최소 시간
 dp = [[-1] * (1 << N) for _ in range(N)]
 
 def find(curr, visited):
