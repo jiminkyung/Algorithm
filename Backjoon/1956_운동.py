@@ -1,6 +1,44 @@
 # 최단 경로
 
 
+# ⭐새로운 풀이 추가
+# P/NP 포인트는 1. min 대신 비교연산자, 2. 리스트 크기 V로 설정, 3. 마지막 반복문의 범위 설정
+# 특히 3번이 포인트다. 시간초과 코드에서 3번만 수정해도 통과됨.
+# A마을의 사이클 (AB + BA) == B마을의 사이클 (BA + AB)이므로, 한번 확인한 조합은 다시 확인하지 않아도 된다.
+# 메모리: 37660KB / 시간: 5832ms
+from sys import stdin
+
+
+input = stdin.readline
+INF = float("inf")
+
+def main():
+    V, E = map(int, input().split())
+    graph = [[INF] * V for _ in range(V)]
+
+    for _ in range(E):
+        a, b, c = map(int, input().split())
+        graph[a-1][b-1] = c
+    
+    for k in range(V):
+        for i in range(V):
+            for j in range(V):
+                if graph[i][j] > graph[i][k] + graph[k][j]:
+                    graph[i][j] = graph[i][k] + graph[k][j]
+    
+    min_dis = INF
+
+    for i in range(V):
+        for j in range(i+1, V):
+            if min_dis > graph[i][j] + graph[j][i]:
+                min_dis = graph[i][j] + graph[j][i]
+    
+    print(min_dis if min_dis != INF else -1)
+
+
+main()
+
+
 # 사이클이 있어야함. 플로이드-워셜이 적절할듯싶다.
 # Python3로 제출시 시간초과! => 다익스트라를 응용해서 풀어야 하나? => 플로이드-워셜이 맞았다.
 # PyPy3로 제출 => 메모리: 137044KB / 시간: 1080ms
