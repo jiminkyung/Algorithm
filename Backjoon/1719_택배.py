@@ -12,6 +12,43 @@
 이 때, 1 - 2 - 3 - 4 는 k = 2 일 때 갱신되지 않습니다. (k = 2 일때 갱신되려면 graph[1][4] = graph[1][2] + graph[2][4] 여야 하는데 graph[2][4](2 - 3 - 4)는 k = 3 일때 갱신)
 즉, tmp[1][4] = 2인데 tmp[i][j] = k면 tmp[1][4] = 3이 되어 틀리게 됩니다.
 """
+
+# 더 빠른 풀이 (로직은 같음)
+# 메모리: 33432KB / 시간: 584ms
+from sys import stdin
+
+
+input = stdin.readline
+INF = int(1e9)
+
+def main():
+    N, M = map(int, input().split())
+    graph = [[INF] * N for _ in range(N)]
+    nxt = [[-1] * N for _ in range(N)]
+
+    for _ in range(M):
+        u, v, w = map(int, input().split())
+        graph[u-1][v-1] = w
+        graph[v-1][u-1] = w
+        
+        nxt[u-1][v-1] = v
+        nxt[v-1][u-1] = u
+    
+    for k in range(N):
+        for i in range(N):
+            for j in range(N):
+                if graph[i][j] > graph[i][k] + graph[k][j]:
+                    graph[i][j] = graph[i][k] + graph[k][j]
+                    nxt[i][j] = nxt[i][k]
+    
+    for i in range(N):
+        line = ["-" if i == j else nxt[i][j] for j in range(N)]
+        print(*line)
+
+
+main()
+
+
 # 메모리: 33432KB / 시간: 1984ms
 from sys import stdin
 
