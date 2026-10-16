@@ -36,7 +36,7 @@ def solution(s: list[str]) -> list[str]:
         if idx == -1:
             if not stack:
                 ret = group
-            if stack[-1] == "1":
+            elif stack[-1] == "1":
                 ret = stack[:-1] + group + "1"
             else:
                 ret = stack + group
